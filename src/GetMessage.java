@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -71,19 +73,22 @@ public class GetMessage {
 					
 					//Make sure we just include the spot price available futures.
 					if (futurespot != 0.0)
-					{												
+					{										
+						//Number of decimal places
+						int numberdecimals = (futurespot.toString().split("\\."))[1].length();
+						
 						//Check buy conditions
 						if (futurespot < buy2*1.002) { //Check the 2D condition first
-							msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" buy signal at " + buy2 + " current price is: " + futurespot + ".|" ;  
+							msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
 						} else if (futurespot < buy1*1.002) { //Check the 1D condition second
-							msg += "PERIOD:" + period + " "+future+" buy signal at " + buy1 + " current price is: " + futurespot + ".|" ;
+							msg += "PERIOD:" + period + " "+future+" buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
 						}
 						
 						//Check sell conditions
 						if (futurespot > sell2*0.998) { //Check the 2D condition first
-							msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" sell signal at " + buy2 + " current price is: " + futurespot + ".|" ;  
+							msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
 						} else if (futurespot > sell1*0.998) { //Check the 1D condition second
-							msg += "PERIOD:" + period + " "+future+" sell signal at " + buy1 + " current price is: " + futurespot + ".|" ;
+							msg += "PERIOD:" + period + " "+future+" sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
 						}	
 					}																			
 					System.out.println(msg);
@@ -123,6 +128,14 @@ public class GetMessage {
 			}			
 		}
 		return 0.0;
+	}
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
 	}
 
 }
