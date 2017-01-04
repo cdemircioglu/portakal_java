@@ -68,6 +68,38 @@ public class InsertSpot {
 		}
 	}
 
+	public static void InsertSpot(String future, String value) throws InterruptedException {
+		//Get the current date
+		String SQLDate = GetDate.GetDateMySQL();
+
+		String url = "jdbc:mysql://cemoptions.cloudapp.net:3306/myoptions";
+		String user = "borsacanavari";
+		String password = "opsiyoncanavari1";
+		
+		// Load the Connector/J driver
+		try {
+			
+			//Get the driver
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			
+			//Establish connection to MySQL
+			Connection conn = DriverManager.getConnection(url, user, password);
+
+			//Prepare the statement
+			Statement stmt = conn.createStatement();
+			
+			//Insert into spot
+			String query = "INSERT INTO futuresspot (FUTURE,SETTLE) VALUES ('"+future+"',"+ParseFuture.ParseString(value,future)+")";
+			stmt.execute(query);											
+														
+			//Close the connection
+			stmt.close();
+			conn.close();
+			
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	
 
 }

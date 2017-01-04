@@ -4,42 +4,45 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
-import java.sql.*;  
-import com.windowsazure.messaging.Notification;
-import com.windowsazure.messaging.NotificationHub;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.sql.*;
+
 
 
 public class TestHarness {
 	
-	public static void main(String[] args) throws InterruptedException {
-				
-		//if(GetDate.isRun()) //Run the process
-		//{
-		//			
-		//	String msg = GetMessage.GetMessage(); //This is the return message
-		//	
-		//	if (msg.length()>10) //Make sure there is a message 
-		//		SendMessage.SendMessage(msg);
-		//
-		//	if(GetDate.isCOB()) //Take the snapshot of the day
-		//	{
-		//		DeleteRecords.DeleteSpot(); //Delete the spot data				
-		//		DeleteRecords.DeleteFutures(); //Delete the futures data for current day
-		//		
-		//		//Insert the spot data
-		//		InsertSpot.InsertSpot(); 				
-		//		
-		//		//Insert new closing data for futures
-		//		InsertFutures.InsertFutures(); 												
-		//	}
-		//	
-		//}
-
+	public static void main(String[] args) throws IOException, InterruptedException {
 		
-		//System.out.println(futurelist.get(1));
+		
+		//Insert ICE into future spot
+		for (String futurestring : GetBlob.GetBlob("futures_ice.txt"))
+		{
+			String future = futurestring.split(",")[0];
+			String futureindex = futurestring.split(",")[2];
+			
+			//Delete the future
+			DeleteRecords.DeleteSpot(future);
+			
+			//Get the value
+			Double[] futurevalues = GetICESpot.GetValues(futurestring.split(",")[2]);
+			
+			//Insert the future
+			InsertSpot.InsertSpot(future, futurevalues[0].toString());
+			System.out.println(future);
+		}
+		//GetValues("aaa");
+		
+		
 	}
 
 	
+}
+
+	
 	
 
-}

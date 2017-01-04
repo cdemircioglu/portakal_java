@@ -101,4 +101,70 @@ public class InsertFutures {
 		
 	}
 
+	public static void InsertFutures(String future, Double[] values) throws InterruptedException {
+		
+		//Get the current date
+		String SQLDate = GetDate.GetDateMySQL();
+
+		String url = "jdbc:mysql://cemoptions.cloudapp.net:3306/myoptions";
+		String user = "borsacanavari";
+		String password = "opsiyoncanavari1";
+		
+		try {
+			//Truncate the futures spot table
+			DeleteRecords.DeleteFutures(future);
+
+			//Get the driver
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			
+			//Establish connection to MySQL
+			Connection conn = DriverManager.getConnection(url, user, password);
+
+			//Prepare the statement
+			Statement stmt = conn.createStatement();
+			
+			//Call the procedure to get the conversion factor
+			String query = "CALL ConvertSpot('"+future+"',"+ParseFuture.ParseString(values[3].toString(),future)+")";
+			System.out.println(query);
+			ResultSet rs = stmt.executeQuery(query);
+						
+			//Create the conversion factor
+            Double conversionfactor = 0.0;
+			while(rs.next())
+				{ conversionfactor = rs.getDouble(1);}
+		
+			//The ZB case
+			if (future.equals("ZB"))
+			{ 
+				Double PClose = conversionfactor*ParseFuture.ParseString(values[3].toString(),future);
+				conversionfactor = PClose/ConvertZB.ConvertTo100(ParseFuture.ParseString(values[3].toString(),future)); //Set the conversion factor based on 100's.							
+				query = "INSERT INTO futures (FUTURE,SNAPSHOTDATE,HIGH,LOW,LAST,SETTLE) VALUES('"+future+"','"+SQLDate+"',"+
+						(ConvertZB.ConvertTo100(ParseFuture.ParseString(values[2].toString(),future))*conversionfactor)+","+
+						(ConvertZB.ConvertTo100(ParseFuture.ParseString(values[1].toString(),future))*conversionfactor)+","+
+						(ConvertZB.ConvertTo100(ParseFuture.ParseString(values[0].toString(),future))*conversionfactor)+","+
+						(ConvertZB.ConvertTo100(ParseFuture.ParseString(values[0].toString(),future))*conversionfactor)+")";	
+			}
+			else 
+			{
+		        //System.out.println(futureID + " " + row.Future + " " + row.HighPrice  + " " + row.LowPrice + " " + row.LastPrice + " " + row.PreviousPrice);
+				System.out.println(future + " " + ParseFuture.ParseString(values[0].toString(),future) + " " + values[0].toString() );						 
+				query = "INSERT INTO futures (FUTURE,SNAPSHOTDATE,HIGH,LOW,LAST,SETTLE) VALUES('"+future+"','"+SQLDate+"',"+ParseFuture.ParseString(values[2].toString(),future)*conversionfactor+","+ParseFuture.ParseString(values[1].toString(),future)*conversionfactor+","+ParseFuture.ParseString(values[0].toString(),future)*conversionfactor+","+ParseFuture.ParseString(values[0].toString(),future)*conversionfactor+")";
+			}
+			
+			stmt.execute(query); //Execute the query
+		
+			//Close the connection
+			stmt.close();
+			conn.close();
+			
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		
+	}
+
+	
 }
