@@ -43,7 +43,6 @@ public class Execute {
 					
 					//Insert the future
 					InsertSpot.InsertSpot(future, futurevalues[0].toString());
-					System.out.println(future);
 					
 					//Insert new closing data for futures
 					InsertFutures.InsertFutures(future, futurevalues); 	

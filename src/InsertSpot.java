@@ -90,7 +90,8 @@ public class InsertSpot {
 			
 			//Insert into spot
 			String query = "INSERT INTO futuresspot (FUTURE,SETTLE) VALUES ('"+future+"',"+ParseFuture.ParseString(value,future)+")";
-			stmt.execute(query);											
+			stmt.execute(query);
+			System.out.println(query);
 														
 			//Close the connection
 			stmt.close();
