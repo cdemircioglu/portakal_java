@@ -16,8 +16,9 @@ public class Execute {
 			
 			String msg = GetMessage.GetMessage(); //This is the return message
 			
-			if (msg.length()>10) //Make sure there is a message 
+			if (msg.length()>10) //Make sure there is a message			
 				SendMessage.SendMessage(msg);
+			
 
 			if(GetDate.isCOB() || COB == 1) //Take the snapshot of the day
 			{
