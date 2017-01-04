@@ -126,7 +126,6 @@ public class InsertFutures {
 			
 			//Call the procedure to get the conversion factor
 			String query = "CALL ConvertSpot('"+future+"',"+ParseFuture.ParseString(values[3].toString(),future)+")";
-			System.out.println(query);
 			ResultSet rs = stmt.executeQuery(query);
 						
 			//Create the conversion factor

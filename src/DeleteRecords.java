@@ -81,7 +81,7 @@ public class DeleteRecords {
 			
 			//Prepare the statement
 			Statement stmt = conn.createStatement();						
-			stmt.execute("DELETE FROM futuresspot WHERE FUTURE ='" + future + "';");
+			stmt.execute("DELETE FROM futures WHERE FUTURE ='" + future + "' AND SNAPSHOTDATE = '" + SQLDate +"';");
 								
 			//Close the connection
 			stmt.close();
