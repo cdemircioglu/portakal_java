@@ -95,6 +95,7 @@ public class InsertFutures {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("Error" + e.getMessage());
 		}
 		
 
@@ -160,6 +161,7 @@ public class InsertFutures {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("Error" + e.getMessage());
 		}
 		
 

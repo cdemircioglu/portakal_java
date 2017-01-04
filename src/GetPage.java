@@ -53,6 +53,7 @@ public class GetPage {
 		catch (Exception ex)
 		{
 			System.out.println(ex.getMessage());
+			System.out.println("Error" + ex.getMessage());
 		}
 		
 		return null; 
@@ -95,6 +96,7 @@ public class GetPage {
 			catch (Exception ex)
 			{
 				//Continue to execute
+				System.out.println("Looping through!!");
 			}
 		}	
 				

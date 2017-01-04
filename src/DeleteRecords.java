@@ -30,7 +30,7 @@ public class DeleteRecords {
 			conn.close();
 			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error" + e.getMessage());
 		}
 	}
 
@@ -59,7 +59,7 @@ public class DeleteRecords {
 			conn.close();
 			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error" + e.getMessage());
 		}
 	}
 
@@ -88,7 +88,7 @@ public class DeleteRecords {
 			conn.close();
 			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error" + e.getMessage());
 		}
 	}
 
@@ -119,7 +119,7 @@ public class DeleteRecords {
 			conn.close();
 			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error" + e.getMessage());
 		}
 	}
 

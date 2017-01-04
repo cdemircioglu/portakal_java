@@ -30,6 +30,7 @@ public class GetMessage {
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.out.println("Error" + e1.getMessage());
 		}								
 		
 		//Get the list of futures
@@ -102,6 +103,7 @@ public class GetMessage {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("Error" + e.getMessage());
 		}
 		
 		//Return value

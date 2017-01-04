@@ -81,6 +81,7 @@ public class GetBlob {
 		 {
 		     // Output the stack trace.
 		     e.printStackTrace();
+		     System.out.println("Error" + e.getMessage());
 		 }
 		 
 		 return futurelist;
