@@ -78,19 +78,41 @@ public class GetMessage {
 						//Number of decimal places
 						int numberdecimals = (futurespot.toString().split("\\."))[1].length();
 						
-						//Check buy conditions
-						if (futurespot < buy2*1.001) { //Check the 2D condition first
-							msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
-						} else if (futurespot < buy1*1.001) { //Check the 1D condition second
-							msg += "PERIOD:" + period + " "+future+" buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+						if (!future.equals("ZB"))
+						{
+							//Check buy conditions
+							if (futurespot < buy2*1.001) { //Check the 2D condition first
+								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+							} else if (futurespot < buy1*1.001) { //Check the 1D condition second
+								msg += "PERIOD:" + period + " "+future+" buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+							}
+							
+							//Check sell conditions
+							if (futurespot > sell2*0.999) { //Check the 2D condition first
+								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+							} else if (futurespot > sell1*0.999) { //Check the 1D condition second
+								msg += "PERIOD:" + period + " "+future+" sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+							}
+						} else {
+							//Check buy conditions
+							if (ConvertZB.ConvertTo100(futurespot) < ConvertZB.ConvertTo100(buy2)*1.001) { //Check the 2D condition first
+								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+							} else if (ConvertZB.ConvertTo100(futurespot) < ConvertZB.ConvertTo100(buy1)*1.001) { //Check the 1D condition second
+								msg += "PERIOD:" + period + " "+future+" buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+							}
+							
+							//Check sell conditions
+							if (ConvertZB.ConvertTo100(futurespot) > ConvertZB.ConvertTo100(sell2)*0.999) { //Check the 2D condition first
+								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+							} else if (ConvertZB.ConvertTo100(futurespot) > ConvertZB.ConvertTo100(sell1)*0.999) { //Check the 1D condition second
+								msg += "PERIOD:" + period + " "+future+" sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+							}
+							
+							
 						}
+							
 						
-						//Check sell conditions
-						if (futurespot > sell2*0.999) { //Check the 2D condition first
-							msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
-						} else if (futurespot > sell1*0.999) { //Check the 1D condition second
-							msg += "PERIOD:" + period + " "+future+" sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
-						}	
+						
 					}																			
 					System.out.println(msg);
 				}
