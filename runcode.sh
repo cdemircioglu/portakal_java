@@ -9,4 +9,5 @@ javac -cp .:../lib/* InsertFutures.java
 javac -cp .:../lib/* InsertSpot.java
 javac -cp .:../lib/* SendMessage.java
 javac -cp .:../lib/* TestHarness.java
+javac -cp .:../lib/* GetICEMessage.java
 javac -cp .:../lib/* Execute.java
