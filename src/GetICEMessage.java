@@ -28,8 +28,7 @@ public class GetICEMessage {
 			//Break the future list string into its components
 			String[] futurearray = futurestring.split(",");	
 			String future = futurearray[0]; 
-			String futureaddress = futurearray[1];
-			System.out.println(futureaddress);
+			String futureaddress = futurearray[2];			
 			
 			//Get the price array
 			try {
