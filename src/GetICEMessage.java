@@ -13,9 +13,13 @@ import java.util.TreeMap;
 
 public class GetICEMessage {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) {		
+		//Set the mysql variables
+		String url = "jdbc:mysql://cemoptions.cloudapp.net:3306/myoptions";
+		String user = "borsacanavari";
+		String password = "opsiyoncanavari1";
 
+		
 		//Get the list of futures
 		List<String> futurelist = GetBlob.GetBlob("futures_ice.txt");
 
@@ -31,10 +35,20 @@ public class GetICEMessage {
 			
 			//Get the price array
 			try {
-				
-				//Get the result set
-				ResultSet rs = GetForecast();
 
+				//Get the driver
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				
+				//Establish connection to MySQL
+				Connection conn = DriverManager.getConnection(url, user, password);
+
+				//Prepare the statement
+				Statement stmt = conn.createStatement();
+				
+				//Call the procedure to get the predictions
+				String query = "SELECT FUTURE,BUY05,SELL05,BUY1,SELL1,PERIOD FROM futurespredict WHERE SNAPSHOTDATE = (SELECT MAX(SNAPSHOTDATE) FROM futurespredict)";
+				ResultSet rs = stmt.executeQuery(query);													
+				
 				//Get the price array
 				Double[] values = GetICESpot.GetValues(futureaddress);
 
@@ -56,9 +70,14 @@ public class GetICEMessage {
 					if (future.equals(futureforecast))
 						System.out.println(future);
 				}
+				
+				//Close the connection
+				stmt.close();
+				conn.close();
+
 					
 				
-			} catch (IOException | SQLException e) {
+			} catch (IOException | SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -69,38 +88,5 @@ public class GetICEMessage {
 		
 	}
 
-	public static ResultSet GetForecast() {
-		
-		//Set the mysql variables
-		String url = "jdbc:mysql://cemoptions.cloudapp.net:3306/myoptions";
-		String user = "borsacanavari";
-		String password = "opsiyoncanavari1";
-		
-		try {
-		
-		//Get the driver
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		
-		//Establish connection to MySQL
-		Connection conn = DriverManager.getConnection(url, user, password);
-
-		//Prepare the statement
-		Statement stmt = conn.createStatement();
-		
-		//Call the procedure to get the predictions
-		String query = "SELECT FUTURE,BUY05,SELL05,BUY1,SELL1,PERIOD FROM futurespredict WHERE SNAPSHOTDATE = (SELECT MAX(SNAPSHOTDATE) FROM futurespredict)";
-		ResultSet rs = stmt.executeQuery(query);													
-		
-		//Close the connection
-		stmt.close();
-		conn.close();
-		
-		return rs;
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-		}
-		return null;
-	}
 
 }
