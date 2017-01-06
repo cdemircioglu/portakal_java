@@ -13,6 +13,9 @@ import java.util.TreeMap;
 
 public class GetICEMessage {
 
+	private static String msg;
+
+	
 	public static void main(String[] args) {		
 		//Set the mysql variables
 		String url = "jdbc:mysql://cemoptions.cloudapp.net:3306/myoptions";
@@ -33,59 +36,75 @@ public class GetICEMessage {
 			String futureaddress = futurearray[2];			
 			System.out.println(futureaddress);
 			
-			//Get the price array
-			try {
-
-				//Get the driver
-				Class.forName("com.mysql.jdbc.Driver").newInstance();
-				
-				//Establish connection to MySQL
-				Connection conn = DriverManager.getConnection(url, user, password);
-
-				//Prepare the statement
-				Statement stmt = conn.createStatement();
-				
-				//Call the procedure to get the predictions
-				String query = "SELECT FUTURE,BUY05,SELL05,BUY1,SELL1,PERIOD FROM futurespredict WHERE SNAPSHOTDATE = (SELECT MAX(SNAPSHOTDATE) FROM futurespredict)";
-				ResultSet rs = stmt.executeQuery(query);													
-				
-				//Get the price array
-				Double[] values = GetICESpot.GetValues(futureaddress);
-
-				//Loop on forecast
-				while(rs.next())
-				{
-					//Get the predictions from the database
-					String futureforecast = rs.getString("FUTURE");
-					Double buy1 = rs.getDouble("BUY05");
-					Double sell1 = rs.getDouble("SELL05");
-					Double buy2 = rs.getDouble("BUY1");
-					Double sell2 = rs.getDouble("SELL1");
-					Integer period = rs.getInt("PERIOD");
-				
-					//Get the spot price from the list
-					Double futurespot = values[0];
-				
-					//Make sure the forecast side is equal to spot side
-					if (future.equals(futureforecast))
-						System.out.println(future);
-				}
-				
-				//Close the connection
-				stmt.close();
-				conn.close();
-
-					
-				
-			} catch (IOException | SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			//Loop the results until it succeeds. 
+			Boolean CheckLoop = true; 
+		
+			
+			while(CheckLoop)				
+				CheckLoop = GetMessage(url, user, password, future, futureaddress);
 			
 
 			
 		}
 		
+	}
+
+	public static Boolean GetMessage(String url, String user, String password, String future, String futureaddress) {
+		//Get the price array
+		try {
+
+			//Get the driver
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			
+			//Establish connection to MySQL
+			Connection conn = DriverManager.getConnection(url, user, password);
+
+			//Prepare the statement
+			Statement stmt = conn.createStatement();
+			
+			//Call the procedure to get the predictions
+			String query = "SELECT FUTURE,BUY05,SELL05,BUY1,SELL1,PERIOD FROM futurespredict WHERE SNAPSHOTDATE = (SELECT MAX(SNAPSHOTDATE) FROM futurespredict)";
+			ResultSet rs = stmt.executeQuery(query);													
+			
+			//Get the price array
+			Double[] values = GetICESpot.GetValues(futureaddress);
+
+			//Loop on forecast
+			while(rs.next())
+			{
+				//Get the predictions from the database
+				String futureforecast = rs.getString("FUTURE");
+				Double buy1 = rs.getDouble("BUY05");
+				Double sell1 = rs.getDouble("SELL05");
+				Double buy2 = rs.getDouble("BUY1");
+				Double sell2 = rs.getDouble("SELL1");
+				Integer period = rs.getInt("PERIOD");
+			
+				//Get the spot price from the list
+				Double futurespot = values[0];
+			
+				//Make sure the forecast side is equal to spot side
+				if (future.equals(futureforecast))
+					System.out.println(future);
+			}
+			
+			//Close the connection
+			stmt.close();
+			conn.close();
+
+			return false;	
+			
+		} catch (IOException | SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			try {
+				Thread.sleep((int)(Math.random() * 10000));
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 
