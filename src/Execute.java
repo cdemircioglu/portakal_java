@@ -14,9 +14,9 @@ public class Execute {
 		    if(args.length == 1)
 		    	COB = Integer.parseInt(args[0]);
 			
-			String msg = GetMessage.GetMessage(); //This is the return message
+			String msg = GetMessage.GetMessage() + GetICEMessage.GetICEMessage(); //This is the return message
 			
-			if (msg.length()>10) //Make sure there is a message			
+			if (msg.length()>10) //Make sure there is a message					
 				SendMessage.SendMessage(msg);
 			
 

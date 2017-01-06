@@ -13,10 +13,9 @@ import java.util.TreeMap;
 
 public class GetICEMessage {
 
-	private static String msg;
+	private static String msg = "";
 
-	
-	public static void main(String[] args) {		
+	public static String GetICEMessage() {
 		//Set the mysql variables
 		String url = "jdbc:mysql://cemoptions.cloudapp.net:3306/myoptions";
 		String user = "borsacanavari";
@@ -39,14 +38,13 @@ public class GetICEMessage {
 			//Loop the results until it succeeds. 
 			Boolean CheckLoop = true; 
 		
-			
+			//This is the loop to make sure we get the results. The system auto tries if it fails
 			while(CheckLoop)				
-				CheckLoop = GetMessage(url, user, password, future, futureaddress);
-			
-
+				CheckLoop = GetMessage(url, user, password, future, futureaddress);		
 			
 		}
 		
+		return msg;
 	}
 
 	public static Boolean GetMessage(String url, String user, String password, String future, String futureaddress) {
@@ -85,7 +83,26 @@ public class GetICEMessage {
 			
 				//Make sure the forecast side is equal to spot side
 				if (future.equals(futureforecast))
-					System.out.println(future);
+				{
+					//Number of decimal places
+					int numberdecimals = (futurespot.toString().split("\\."))[1].length();
+
+					//Check buy conditions
+					if (futurespot < buy2*1.001) { //Check the 2D condition first
+						msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+					} else if (futurespot < buy1*1.001) { //Check the 1D condition second
+						msg += "PERIOD:" + period + " "+future+" buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+					}
+					
+					//Check sell conditions
+					if (futurespot > sell2*0.999) { //Check the 2D condition first
+						msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+					} else if (futurespot > sell1*0.999) { //Check the 1D condition second
+						msg += "PERIOD:" + period + " "+future+" sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+					}
+				}
+				
+				
 			}
 			
 			//Close the connection
@@ -107,5 +124,12 @@ public class GetICEMessage {
 		return true;
 	}
 
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
+	}
 
 }
