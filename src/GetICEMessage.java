@@ -18,20 +18,23 @@ public class GetICEMessage {
 
 		//Get the list of futures
 		List<String> futurelist = GetBlob.GetBlob("futures_ice.txt");
-		
-		//Get the result set
-		ResultSet rs = GetForecast();
 
 		//Loop through the future list
 		for (String futurestring : futurelist)
 		{
+
 			//Break the future list string into its components
 			String[] futurearray = futurestring.split(",");	
 			String future = futurearray[0]; 
 			String futureaddress = futurearray[2];			
+			System.out.println(futureaddress);
 			
 			//Get the price array
 			try {
+				
+				//Get the result set
+				ResultSet rs = GetForecast();
+
 				//Get the price array
 				Double[] values = GetICESpot.GetValues(futureaddress);
 
