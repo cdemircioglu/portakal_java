@@ -29,6 +29,7 @@ public class GetICEMessage {
 			String[] futurearray = futurestring.split(",");	
 			String future = futurearray[0]; 
 			String futureaddress = futurearray[1];
+			System.out.println(futureaddress);
 			
 			//Get the price array
 			try {
