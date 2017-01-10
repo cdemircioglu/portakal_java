@@ -92,6 +92,35 @@ public class DeleteRecords {
 		}
 	}
 
+	public static void TruncateFutures() {
+		//Get the current date
+		String SQLDate = GetDate.GetDateMySQL();
+
+		String url = "jdbc:mysql://cemoptions.cloudapp.net:3306/myoptions";
+		String user = "borsacanavari";
+		String password = "opsiyoncanavari1";
+
+		// Load the Connector/J driver
+		try {
+			//Get the driver
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			
+			//Establish connection to MySQL
+			Connection conn = DriverManager.getConnection(url, user, password);
+			
+			//Prepare the statement
+			Statement stmt = conn.createStatement();						
+			stmt.execute("TRUNCATE TABLE futures;");
+								
+			//Close the connection
+			stmt.close();
+			conn.close();
+			
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			System.out.println("Error" + e.getMessage());
+		}
+	}
+
 	
 	
 	public static void DeleteSpot() {

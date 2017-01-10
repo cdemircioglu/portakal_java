@@ -17,7 +17,7 @@ public class GetBlob {
 	 "AccountName=gakguk;" +
 	 "AccountKey=pb4ole+R5XjXyOU9hlOMISPeXBJFmgUg9Gdwqr461cQ6wDOCtiGQRUtZkvaQUlTSta7ydxJF6unyzUJnAbU1PQ==";
 	
-	 public static List<String> GetBlob(String args) {
+	public static List<String> GetBlob(String args) {
 
 		 //List of futures			 
 		 List<String> futurelist = new ArrayList<String>(); 
