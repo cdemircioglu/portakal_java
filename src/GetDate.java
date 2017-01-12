@@ -73,6 +73,12 @@ public class GetDate {
         return sqlDate.toString();
 	}
 
+	public static String GetDateMySQLDateTime() {		
+		long d = GetDate().getTime();
+		java.sql.Timestamp sqlDate = new java.sql.Timestamp(d);
+        return sqlDate.toString();
+	}
+
 	
 	public static Date GetDate() {
 		//Eastern time
