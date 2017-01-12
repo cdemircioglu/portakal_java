@@ -71,7 +71,7 @@ public class InsertNotification {
 								
 				//Execute the query
 				String query = "INSERT INTO futuresnotify VALUES ('"+SQLDate+"','"+future+"','"+action+"',"+sd+","+period+","+rsi+","+mfi+","+signal+","+current+")";
-				stmt.executeQuery(query);
+				stmt.execute(query);
 				
 				//Close the connection
 				stmt.close();
