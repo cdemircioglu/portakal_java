@@ -55,7 +55,7 @@ public class GetMessage {
 			Statement stmt = conn.createStatement();
 			
 			//Call the procedure to get the predictions
-			String query = "SELECT FUTURE,BUY05,SELL05,BUY1,SELL1,PERIOD FROM futurespredict WHERE SNAPSHOTDATE = (SELECT MAX(SNAPSHOTDATE) FROM futurespredict)";
+			String query = "SELECT FUTURE,BUY05,SELL05,BUY1,SELL1,PERIOD,BUYRSI1,BUYRSI2,SELLRSI1,SELLRSI2,RSI,MFI FROM futurespredict WHERE SNAPSHOTDATE = (SELECT MAX(SNAPSHOTDATE) FROM futurespredict)";
 			ResultSet rs = stmt.executeQuery(query);											
 					
 			//Create the conversion factor
@@ -66,9 +66,17 @@ public class GetMessage {
 					Double buy1 = rs.getDouble("BUY05");
 					Double sell1 = rs.getDouble("SELL05");
 					Double buy2 = rs.getDouble("BUY1");
-					Double sell2 = rs.getDouble("SELL1");
+					Double sell2 = rs.getDouble("SELL1");					
 					Integer period = rs.getInt("PERIOD");
-				
+					
+					Double buyrsi1 = rs.getDouble("BUYRSI1");
+					Double buyrsi2 = rs.getDouble("BUYRSI2");
+					Double sellrsi1 = rs.getDouble("SELLRSI1");
+					Double sellrsi2 = rs.getDouble("SELLRSI2");
+					Double rsi = rs.getDouble("RSI");
+					Double mfi = rs.getDouble("MFI");
+					
+					
 					//Get the spot price from the list
 					Double futurespot = GetSpotPrice(future);
 					
@@ -82,30 +90,30 @@ public class GetMessage {
 						{
 							//Check buy conditions
 							if (futurespot < buy2*1.001) { //Check the 2D condition first
-								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" ("+buyrsi2+") buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
 							} else if (futurespot < buy1*1.001) { //Check the 1D condition second
-								msg += "PERIOD:" + period + " "+future+" buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+								msg += "PERIOD:" + period + " "+future+" ("+buyrsi1+") buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
 							}
 							
 							//Check sell conditions
 							if (futurespot > sell2*0.999) { //Check the 2D condition first
-								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" ("+sellrsi2+") sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
 							} else if (futurespot > sell1*0.999) { //Check the 1D condition second
-								msg += "PERIOD:" + period + " "+future+" sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+								msg += "PERIOD:" + period + " "+future+" ("+sellrsi1+") sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
 							}
 						} else {
 							//Check buy conditions
 							if (ConvertZB.ConvertTo100(futurespot) < ConvertZB.ConvertTo100(buy2)*1.001) { //Check the 2D condition first
-								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" ("+buyrsi2+") buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
 							} else if (ConvertZB.ConvertTo100(futurespot) < ConvertZB.ConvertTo100(buy1)*1.001) { //Check the 1D condition second
-								msg += "PERIOD:" + period + " "+future+" buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+								msg += "PERIOD:" + period + " "+future+" ("+buyrsi1+") buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
 							}
 							
 							//Check sell conditions
 							if (ConvertZB.ConvertTo100(futurespot) > ConvertZB.ConvertTo100(sell2)*0.999) { //Check the 2D condition first
-								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+								msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" ("+sellrsi2+") sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
 							} else if (ConvertZB.ConvertTo100(futurespot) > ConvertZB.ConvertTo100(sell1)*0.999) { //Check the 1D condition second
-								msg += "PERIOD:" + period + " "+future+" sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+								msg += "PERIOD:" + period + " "+future+" ("+sellrsi1+") sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
 							}
 							
 							

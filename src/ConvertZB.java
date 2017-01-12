@@ -1,6 +1,6 @@
 
 public class ConvertZB {
-	 //Test comment
+	
 	public static double ConvertTo32(Double value) {
 		
 		//Get the number after the decimal
