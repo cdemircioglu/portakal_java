@@ -31,7 +31,7 @@ public class InsertNotification {
 			
 			//Get the SD
 			String rowSD = row.replace("$$$ ", "").replace("2D ALERT ", "");
-			if (!rowSD.equals(rowSD)) 
+			if (!rowSD.equals(row)) 
 					sd = 2;
 			
 			//Get the action sell or buy
