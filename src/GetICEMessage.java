@@ -78,13 +78,13 @@ public class GetICEMessage {
 				Double sell2 = rs.getDouble("SELL1");
 				Integer period = rs.getInt("PERIOD");
 			
-				Double buyrsi1 = rs.getDouble("BUYRSI1");
-				Double buyrsi2 = rs.getDouble("BUYRSI2");
-				Double sellrsi1 = rs.getDouble("SELLRSI1");
-				Double sellrsi2 = rs.getDouble("SELLRSI2");
-				Double rsi = rs.getDouble("RSI");
-				Double mfi = rs.getDouble("MFI");
-						
+				int buyrsi1 = (int) rs.getDouble("BUYRSI1");
+				int buyrsi2 = (int) rs.getDouble("BUYRSI2");
+				int sellrsi1 = (int) rs.getDouble("SELLRSI1");
+				int sellrsi2 = (int) rs.getDouble("SELLRSI2");
+				int rsi = (int) rs.getDouble("RSI");
+				int mfi = (int) rs.getDouble("MFI");
+			
 				//Get the spot price from the list
 				Double futurespot = values[0];
 			
@@ -96,16 +96,16 @@ public class GetICEMessage {
 
 					//Check buy conditions
 					if (futurespot < buy2*1.001) { //Check the 2D condition first
-						msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" ("+buyrsi2+") buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+						msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" (RSI:"+buyrsi2+",MFI:"+mfi+") buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
 					} else if (futurespot < buy1*1.001) { //Check the 1D condition second
-						msg += "PERIOD:" + period + " "+future+" ("+buyrsi1+") buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+						msg += "PERIOD:" + period + " "+future+" (RSI:"+buyrsi1+",MFI:"+mfi+") buy signal at " + round(buy1,numberdecimals) + " current price is: " + futurespot + ".|" ;
 					}
 					
 					//Check sell conditions
 					if (futurespot > sell2*0.999) { //Check the 2D condition first
-						msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" ("+sellrsi2+") sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
+						msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" (RSI:"+sellrsi2+",MFI:"+mfi+") sell signal at " + round(sell2,numberdecimals) + " current price is: " + futurespot + ".|" ;  
 					} else if (futurespot > sell1*0.999) { //Check the 1D condition second
-						msg += "PERIOD:" + period + " "+future+" ("+sellrsi1+") sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
+						msg += "PERIOD:" + period + " "+future+" (RSI:"+sellrsi1+",MFI:"+mfi+") sell signal at " + round(sell1,numberdecimals) + " current price is: " + futurespot + ".|" ;
 					}
 				}
 				
