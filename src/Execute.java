@@ -5,14 +5,15 @@ public class Execute {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		// TODO Auto-generated method stub
 
-		if(GetDate.isRun()) //Run the process
+
+		int COB = 0; //To overwrite the schedule
+		
+		// Check how many arguments were passed in
+	    if(args.length == 1)
+	    	COB = Integer.parseInt(args[0]);
+		
+		if(GetDate.isRun() || COB == 2) //Run the process
 		{
-			
-			int COB = 0; //To overwrite the schedule
-			
-			// Check how many arguments were passed in
-		    if(args.length == 1)
-		    	COB = Integer.parseInt(args[0]);
 			
 			String msg = GetMessage.GetMessage() + GetICEMessage.GetICEMessage(); //This is the return message
 			
