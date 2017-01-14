@@ -11,6 +11,9 @@ public class SendMessage {
 	
 	public static void SendMessage(String msg) {
 		
+		//Remove the last character
+		msg = msg.substring(0,msg.length()-1);
+		
 		SendAndroid(msg);
 		SendIOS(msg);
 		
