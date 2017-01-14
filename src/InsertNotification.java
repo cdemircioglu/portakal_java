@@ -26,6 +26,7 @@ public class InsertNotification {
 			String future = "";
 			int rsi = 0;
 			int mfi = 0;
+			double mva = 0;
 			double signal = 0;
 			double current = 0;
 			
@@ -47,6 +48,9 @@ public class InsertNotification {
 			//Get the mfi
 			mfi = Integer.parseInt(rowSD.split(" ")[2].split(",")[1].split(":")[1].replace("(", "").replace(")", ""));
 			
+			//Get the mva
+			mva = Double.parseDouble(rowSD.split(" ")[2].split(",")[2].split(":")[1].replace("(", "").replace(")", ""));
+						
 			//Get the signal
 			signal = Double.parseDouble(rowSD.split(" ")[6]);
 			
@@ -70,7 +74,7 @@ public class InsertNotification {
 				Statement stmt = conn.createStatement();
 								
 				//Execute the query
-				String query = "INSERT INTO futuresnotify VALUES ('"+SQLDate+"','"+future+"','"+action+"',"+sd+","+period+","+rsi+","+mfi+","+signal+","+current+")";
+				String query = "INSERT INTO futuresnotify VALUES ('"+SQLDate+"','"+future+"','"+action+"',"+sd+","+period+","+rsi+","+mfi+","+signal+","+current+","+mva+")";
 				stmt.execute(query);
 				
 				//Close the connection
