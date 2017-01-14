@@ -95,6 +95,9 @@ public class GetICEMessage {
 					//Number of decimal places
 					int numberdecimals = (futurespot.toString().split("\\."))[1].length();
 
+					//Set the MVA decimals
+					mva = round(mva,numberdecimals);
+
 					//Check buy conditions
 					if (futurespot < buy2*1.001) { //Check the 2D condition first
 						msg += "$$$ PERIOD:" + period + " 2D ALERT $$$ "+future+" (RSI:"+buyrsi2+",MFI:"+mfi+",MVA:"+mva+") buy signal at " +  round(buy2,numberdecimals) + " current price is: " + futurespot + ".|" ;  

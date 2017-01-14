@@ -87,6 +87,9 @@ public class GetMessage {
 						//Number of decimal places
 						int numberdecimals = (futurespot.toString().split("\\."))[1].length();
 						
+						//Set the MVA decimals
+						mva = round(mva,numberdecimals);
+						
 						if (!future.equals("ZB"))
 						{
 							//Check buy conditions
