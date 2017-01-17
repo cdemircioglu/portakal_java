@@ -15,8 +15,7 @@ public class Execute {
 		if(GetDate.isRun() || COB == 2) //Run the process
 		{
 			
-			String msg = GetMessage.GetMessage() + GetICEMessage.GetICEMessage(); //This is the return message
-			msg = msg + GetDate.GetDate();
+			String msg = GetMessage.GetMessage() + GetICEMessage.GetICEMessage(); //This is the return message			
 			
 			if (msg.length()>10) //Make sure there is a message
 			{

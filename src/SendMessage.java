@@ -12,8 +12,9 @@ public class SendMessage {
 	public static void SendMessage(String msg) {
 		
 		//Remove the last character
-		msg = msg.substring(0,msg.length()-1);
-		
+		msg = msg.substring(0,msg.length()-1); //Remove last pipe
+		msg = msg + GetDate.GetDate();
+		msg = msg.substring(0,msg.length()-13); // Remove the year/seconds
 		SendAndroid(msg);
 		SendIOS(msg);
 		
