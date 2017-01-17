@@ -13,8 +13,8 @@ public class SendMessage {
 		
 		//Remove the last character
 		msg = msg.substring(0,msg.length()-1); //Remove last pipe
-		msg = msg + GetDate.GetDate();
-		msg = msg.substring(0,msg.length()-13); // Remove the year/seconds
+		msg = msg + "(" + GetDate.GetDate();
+		msg = msg.substring(0,msg.length()-11) + ")"; // Remove the year/seconds
 		SendAndroid(msg);
 		SendIOS(msg);
 		
