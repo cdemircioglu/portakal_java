@@ -16,6 +16,7 @@ public class Execute {
 		{
 			
 			String msg = GetMessage.GetMessage() + GetICEMessage.GetICEMessage(); //This is the return message
+			msg = msg + GetDate.GetDate();
 			
 			if (msg.length()>10) //Make sure there is a message
 			{
