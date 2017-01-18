@@ -92,7 +92,7 @@ public class GetMessage {
 						mva = round(mva,numberdecimals);
 						
 						//Calculate the MVA - SPOT percent difference
-						Double mvap = (mva-futurespot)/futurespot;						
+						Double mvap = (mva-futurespot)/futurespot*100;						
 						
 						if (!future.equals("ZB"))
 						{							

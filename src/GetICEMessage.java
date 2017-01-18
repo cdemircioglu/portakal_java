@@ -100,7 +100,7 @@ public class GetICEMessage {
 					mva = round(mva,numberdecimals);
 
 					//Calculate the MVA - SPOT percent difference
-					Double mvap = (mva-futurespot)/futurespot;					
+					Double mvap = (mva-futurespot)/futurespot*100;					
 					
 					//Check buy conditions
 					if (futurespot < buy2*1.001) { //Check the 2D condition first
