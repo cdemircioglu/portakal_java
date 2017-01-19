@@ -67,10 +67,10 @@ public class GetPage {
 		 for(Element content : contents)
 		 {
 			 futureset.add(content.child(0).text()); //Name
-			 futureset.add(content.child(3).text()); //Last
-			 futureset.add(content.child(9).text()); //High
-			 futureset.add(content.child(10).text()); //Low
-			 futureset.add(content.child(8).text()); //Previous
+			 futureset.add(content.child(3).text().replace("-",".")); //Last
+			 futureset.add(content.child(9).text().replace("-",".")); //High
+			 futureset.add(content.child(10).text().replace("-",".")); //Low
+			 futureset.add(content.child(8).text().replace("-",".")); //Previous
 			 
 		 }
 		 
