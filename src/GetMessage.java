@@ -140,10 +140,13 @@ public class GetMessage {
 						
 					}
 					
+					//Prepare the statement
+					Statement stmtinsert = conn.createStatement();
+					
 					//Create the insert statement
 					String queryinsert = "INSERT INTO futuresspothistory VALUES ('date','json');".replace("json", json.toJSONString()).replace("date", GetDate.GetDateMySQLDateTime());
-					stmt.execute(queryinsert);
-					
+					stmtinsert.execute(queryinsert);
+					stmtinsert.close();
 					
 					System.out.println(msg);
 				}
