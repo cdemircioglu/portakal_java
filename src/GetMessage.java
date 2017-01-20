@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.text.DecimalFormat;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class GetMessage {
 
@@ -18,7 +22,6 @@ public class GetMessage {
 	
 	//Get the list of futures
 	private static List<String> futurelist = new ArrayList<String>();
-
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -59,6 +62,9 @@ public class GetMessage {
 			String query = "SELECT FUTURE,BUY05,SELL05,BUY1,SELL1,PERIOD,BUYRSI1,BUYRSI2,SELLRSI1,SELLRSI2,RSI,MFI,MVA FROM futurespredict WHERE SNAPSHOTDATE = (SELECT MAX(SNAPSHOTDATE) FROM futurespredict)";
 			ResultSet rs = stmt.executeQuery(query);											
 					
+			//Create the JSON object to hold the values
+			JSONObject json = new JSONObject();
+			
 			//Create the conversion factor
 			while(rs.next())
 				{ 
@@ -84,7 +90,10 @@ public class GetMessage {
 					
 					//Make sure we just include the spot price available futures.
 					if (futurespot != 0.0)
-					{										
+					{
+						//Create the json object
+						json.put(future, futurespot);
+						
 						//Number of decimal places
 						int numberdecimals = (futurespot.toString().split("\\."))[1].length();
 						
@@ -129,7 +138,13 @@ public class GetMessage {
 							
 						
 						
-					}																			
+					}
+					
+					//Create the insert statement
+					String queryinsert = "INSERT INTO futuresspothistory VALUES ('date','json');".replace("json", json).replace("date", GetDate.GetDateMySQLDateTime());
+					stmt.execute(queryinsert);
+					
+					
 					System.out.println(msg);
 				}
 
