@@ -141,7 +141,7 @@ public class GetMessage {
 					}
 					
 					//Create the insert statement
-					String queryinsert = "INSERT INTO futuresspothistory VALUES ('date','json');".replace("json", json).replace("date", GetDate.GetDateMySQLDateTime());
+					String queryinsert = "INSERT INTO futuresspothistory VALUES ('date','json');".replace("json", json.toJSONString()).replace("date", GetDate.GetDateMySQLDateTime());
 					stmt.execute(queryinsert);
 					
 					
