@@ -11,10 +11,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.text.DecimalFormat;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class GetICEMessage {
 
 	private static String msg = "";
+	//Create the JSON object to hold the values
+	private static JSONObject json = new JSONObject();
 
 	public static String GetICEMessage() {
 		//Set the mysql variables
@@ -22,7 +28,6 @@ public class GetICEMessage {
 		String user = "borsacanavari";
 		String password = "opsiyoncanavari1";
 
-		
 		//Get the list of futures
 		List<String> futurelist = GetBlob.GetBlob("futures_ice.txt");
 
@@ -44,6 +49,27 @@ public class GetICEMessage {
 				CheckLoop = GetMessage(url, user, password, future, futureaddress);		
 			
 		}
+
+		try {
+			//Get the driver
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			
+			//Establish connection to MySQL
+			Connection conn = DriverManager.getConnection(url, user, password);
+			
+			//Prepare the statement
+			Statement stmtinsert = conn.createStatement();
+			
+			//Create the insert statement
+			String queryinsert = "INSERT INTO futuresspothistory VALUES ('date','json');".replace("json", json.toJSONString()).replace("date", GetDate.GetDateMySQLDateTime());
+			stmtinsert.execute(queryinsert);
+			stmtinsert.close();
+
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		return msg;
 	}
@@ -93,9 +119,12 @@ public class GetICEMessage {
 				//Make sure the forecast side is equal to spot side
 				if (future.equals(futureforecast))
 				{
+					//Create the json object
+					json.put(future, futurespot);
+		
 					//Number of decimal places
 					int numberdecimals = (futurespot.toString().split("\\."))[1].length();
-
+	
 					//Set the MVA decimals
 					mva = round(mva,numberdecimals);
 
