@@ -19,6 +19,20 @@ public class TestHarness {
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 	
+		SendMessage.SendAndroid("aaa");
+		
+
+
+		
+		
+
+			
+		
+		
+		
+	}
+
+	private static void GetFutures() throws InterruptedException {
 		//Set the SQL parameters ##CHANGE THEM###
 		String url = "jdbc:mysql://localhost:3306/testdata";
 		String user = "root";
@@ -79,16 +93,6 @@ public class TestHarness {
 			}
 			
 		}
-		
-	
-
-		
-		
-
-			
-		
-		
-		
 	}
 
 	
