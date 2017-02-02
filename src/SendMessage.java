@@ -25,7 +25,7 @@ public class SendMessage {
 		NotificationHub hub = new NotificationHub("Endpoint=sb://goldfutures.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=wKg1Pvy4D7fLTSfVL62pxjoMZ2U1YQLq79DnfTY0v4A=","goldfutures");
 		
 		//Bug in Android platform, if the message starts with $ sign the message do not show up on the phone. 
-		if (msg.substring(0, 1) == "$")
+		if (msg.substring(0, 1).equals("$"))
 			msg = " " + msg;
 		
 		//Define the pay load
