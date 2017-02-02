@@ -24,6 +24,10 @@ public class SendMessage {
 		//This is the section to send a phone notification via Azure service
 		NotificationHub hub = new NotificationHub("Endpoint=sb://goldfutures.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=wKg1Pvy4D7fLTSfVL62pxjoMZ2U1YQLq79DnfTY0v4A=","goldfutures");
 		
+		//Bug in Android platform, if the message starts with $ sign the message do not show up on the phone. 
+		if (msg.substring(0, 1) == "$")
+			msg = " " + msg;
+		
 		//Define the pay load
 		String payload = "{\"data\":{\"message\":\""+msg+"\"}}";
 		
