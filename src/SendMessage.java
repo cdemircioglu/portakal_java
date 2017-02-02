@@ -27,6 +27,8 @@ public class SendMessage {
 		//Define the pay load
 		String payload = "{\"data\":{\"message\":\""+msg+"\"}}";
 		
+		System.out.println(payload);
+		
 		//Send the notification 
 		Notification p = Notification.createGcmNotifiation(payload);
 		hub.sendNotification(p);
